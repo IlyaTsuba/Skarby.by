@@ -26,3 +26,7 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+admin.site.site_header = 'Адмін-панэль'
+admin.site.index_title = 'Скарбы'

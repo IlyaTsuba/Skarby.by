@@ -7,6 +7,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Катэгорыя'
+        verbose_name_plural = 'Катэгорыі'
+
 
 def account_avatar_upload_to(instance, filename):
     """
@@ -23,14 +27,18 @@ def account_avatar_upload_to(instance, filename):
 
 class Account(models.Model):
     name = models.CharField(max_length=70, verbose_name='Імя/Назва')
-    description = models.TextField()
+    description = models.TextField(verbose_name='Апісанне')
     instagram = models.CharField(max_length=50, null=True, blank=True)
     telegram = models.CharField(max_length=50, blank=True, null=True)
     avatar = models.ImageField(upload_to=account_avatar_upload_to, verbose_name='Аватар')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Катэгорыя')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Аккаўнт'
+        verbose_name_plural = 'Аккаўнты'
 
 
 def account_photos_upload_to(instance, filename):
@@ -52,3 +60,9 @@ class Photos(models.Model):
 
     def __str__(self):
         return self.photo.name
+
+    class Meta:
+        verbose_name = 'Фота'
+        verbose_name_plural = 'Фота'
+
+
