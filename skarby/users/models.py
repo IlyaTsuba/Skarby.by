@@ -39,6 +39,10 @@ class CustomUser(AbstractBaseUser):
 
     objects = CustomUserManager()
 
+    class Meta:
+        verbose_name = 'Юзер'
+        verbose_name_plural = 'Юзеры'
+
     def __str__(self):
         return self.email
 
