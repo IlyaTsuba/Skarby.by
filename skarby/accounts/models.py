@@ -26,12 +26,17 @@ def account_avatar_upload_to(instance, filename):
 
 
 class Account(models.Model):
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Чарнавік',
+        PUBLISHED = 1, 'Апублікавана'
+
     name = models.CharField(max_length=70, verbose_name='Імя/Назва')
     description = models.TextField(verbose_name='Апісанне')
     instagram = models.CharField(max_length=50, null=True, blank=True)
     telegram = models.CharField(max_length=50, blank=True, null=True)
     avatar = models.ImageField(upload_to=account_avatar_upload_to, verbose_name='Аватар')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Катэгорыя')
+    is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
 
     def __str__(self):
         return self.name
