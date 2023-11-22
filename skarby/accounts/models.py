@@ -42,8 +42,8 @@ class Account(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Аккаўнт'
-        verbose_name_plural = 'Аккаўнты'
+        verbose_name = 'Акаўнт'
+        verbose_name_plural = 'Акаўнты'
 
 
 def account_photos_upload_to(instance, filename):
