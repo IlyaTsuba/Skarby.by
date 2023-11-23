@@ -12,6 +12,9 @@ class TestView(APIView):
 
 
 class ActivateUser(UserViewSet):
+    """
+    View for user activation.
+    """
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()
         kwargs.setdefault('context', self.get_serializer_context())
@@ -23,6 +26,9 @@ class ActivateUser(UserViewSet):
 
 
 class PasswordResetView(APIView):
+    """
+    View for password reset.
+    """
 
     def get(self, request, uid, token):
         post_data = {'uid': uid, 'token': token}

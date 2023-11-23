@@ -3,6 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
+    category_slug = models.SlugField(max_length=80, unique=True, db_index=True, verbose_name='Slug')
 
     def __str__(self):
         return self.name
@@ -31,6 +32,7 @@ class Account(models.Model):
         PUBLISHED = 1, 'Апублікавана'
 
     name = models.CharField(max_length=70, verbose_name='Імя/Назва')
+    account_slug = models.SlugField(max_length=80, unique=True, db_index=True, verbose_name='Slug')
     description = models.TextField(verbose_name='Апісанне')
     instagram = models.CharField(max_length=50, null=True, blank=True)
     telegram = models.CharField(max_length=50, blank=True, null=True)
