@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import CustomUser
+
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
@@ -72,4 +74,9 @@ class Photos(models.Model):
         verbose_name = 'Фота'
         verbose_name_plural = 'Фота'
 
+
+class SavedAccount(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
