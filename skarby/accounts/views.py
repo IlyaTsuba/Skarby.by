@@ -3,8 +3,9 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, DestroyAPIView
-
+from rest_framework.generics import ListAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+from accounts.filters import AccountFilter
 from accounts.models import Account, SavedAccount
 from accounts.serializers import AccountSerializer, SavedAccountSerializer
 
@@ -15,6 +16,8 @@ class AccountsListView(ListAPIView):
     """
     queryset = Account.objects.filter(is_published=Account.Status.PUBLISHED)  # Show only accepted to publish accounts
     serializer_class = AccountSerializer
+    filter_backends = (DjangoFilterBackend, )
+    filterset_class = AccountFilter
 
 
 class AccountDetailView(APIView):
