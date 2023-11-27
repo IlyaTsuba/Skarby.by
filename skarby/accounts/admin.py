@@ -10,7 +10,7 @@ class PhotoInline(admin.TabularInline):
 
 
 class AccountAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'show_avatar', 'is_published')
+    list_display = ('id', 'name', 'category', 'show_avatar', 'is_published')
     readonly_fields = ['show_avatar']
     inlines = [PhotoInline]
     list_per_page = 5

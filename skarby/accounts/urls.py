@@ -1,12 +1,13 @@
 from django.urls import path
 
-from accounts.views import AccountsListView, AccountDetailView, SaveAccountView, SavedAccountsListView
+from accounts.views import (AccountsListView, AccountDetailView, SavedAccountsCreateDeleteView, SavedAccountsListView)
 
 urlpatterns = [
 
-    path('accounts/', AccountsListView.as_view()),
-    path('accounts/<slug:account_slug>/', AccountDetailView.as_view()),
+    path('accounts/', AccountsListView.as_view(), name='show-list-of-accounts'),
+    path('accounts/<slug:account_slug>/', AccountDetailView.as_view(), name='show-exact-account'),
 
-    path('save-account/<int:account_id>/', SaveAccountView.as_view(), name='save-account'),
-    path('saved-accounts/', SavedAccountsListView.as_view(), name='show_saved-accounts'),
+    # Saved accounts
+    path('saved-account/<int:account_id>/', SavedAccountsCreateDeleteView.as_view(), name='saved-account'),
+    path('saved-accounts/', SavedAccountsListView.as_view(), name='show_all_saved-accounts')
 ]
