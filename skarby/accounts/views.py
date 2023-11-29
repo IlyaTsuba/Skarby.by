@@ -26,14 +26,14 @@ class AccountDetailView(APIView):
     """
 
     def get(self, request, account_slug):
-        account = get_object_or_404(Account, account_slug=account_slug)
+        account = get_object_or_404(Account, account_slug=account_slug, is_published=Account.Status.PUBLISHED)
 
         serializer = AccountSerializer(account)
 
         return Response(serializer.data)
 
 
-# Save account functionality
+# Saved account functionality
 
 
 class SavedAccountsCreateDeleteView(APIView):
