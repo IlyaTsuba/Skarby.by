@@ -25,6 +25,7 @@ class AccountAdmin(admin.ModelAdmin):
     list_display_links = 'id', 'name'
     prepopulated_fields = {'account_slug': ('name',)}
 
+    # Show same size avatars in admin panel
     @admin.display(description='Аватар')
     def show_avatar(self, account: Account):
         return mark_safe(f"<img src='{account.avatar.url}' width=150")
