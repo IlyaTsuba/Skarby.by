@@ -31,6 +31,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# belarusian language
+LANGUAGE_CODE = 'be-BY'
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -120,7 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 

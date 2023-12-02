@@ -6,11 +6,11 @@ from django.contrib.auth.base_user import BaseUserManager
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password, **extra_fields):
         if not email:
-            raise ValueError('Email field is required!')
+            raise ValueError('Патрэбна поле с электронная поштай!')
         if not username:
-            raise ValueError('Username field is required!')
+            raise ValueError('Патрэбна поле с імем карыстальніка!')
         if not password:
-            raise ValueError('Password field is required!')
+            raise ValueError('Патрэбна поле паролю!')
 
         email = self.normalize_email(email)
 
@@ -40,8 +40,8 @@ class CustomUser(AbstractBaseUser):
     objects = CustomUserManager()
 
     class Meta:
-        verbose_name = 'Юзер'
-        verbose_name_plural = 'Юзеры'
+        verbose_name = 'Карыстальнік'
+        verbose_name_plural = 'Карыстальнікі'
 
     def __str__(self):
         return self.email
