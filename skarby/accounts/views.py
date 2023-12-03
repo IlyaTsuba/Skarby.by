@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,14 +11,21 @@ from accounts.models import Account, SavedAccount
 from accounts.serializers import AccountSerializer, SavedAccountSerializer
 
 
+class AccountListPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 10
+
+
 class AccountsListView(ListAPIView):
     """
     This view is to show all published posts.
     """
     queryset = Account.objects.filter(is_published=Account.Status.PUBLISHED)  # Show only accepted to publish accounts
     serializer_class = AccountSerializer
-    filter_backends = (DjangoFilterBackend, )
+    filter_backends = (DjangoFilterBackend,)
     filterset_class = AccountFilter
+    pagination_class = AccountListPagination
 
 
 class AccountDetailView(APIView):
