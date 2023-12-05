@@ -30,14 +30,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # belarusian language
 LANGUAGE_CODE = 'be-BY'
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
-
 
 # Application definition
 
@@ -90,7 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'skarby.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -104,7 +101,6 @@ DATABASES = {
         'PORT': env('POSTGRES_PORT'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -124,7 +120,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -134,7 +129,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -171,8 +165,8 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': 'users/accounts/password/reset/confirm/{uid}/{token}',
     # 'SET_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
-    #'USER_CREATE_PASSWORD_RETYPE': True,
-    #'SEND_CONFIRMATION_EMAIL': True,
+    # 'USER_CREATE_PASSWORD_RETYPE': True,
+    # 'SEND_CONFIRMATION_EMAIL': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
 }
 
@@ -192,7 +186,6 @@ EMAIL_USE_SSL = False
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 # cors settings
 
@@ -235,7 +228,6 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
 }
 
-
 # logging
 
 LOGGING = {
@@ -246,8 +238,25 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
         },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': './error.log',
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {status_code} {asctime} {module} {message}',
+            'style': '{',
+        },
     },
     'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
         'django.db.backends': {
             'handlers': ['console'],
             'level': 'DEBUG',
@@ -255,3 +264,4 @@ LOGGING = {
         },
     },
 }
+
