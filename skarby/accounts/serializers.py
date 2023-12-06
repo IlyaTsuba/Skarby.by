@@ -6,7 +6,15 @@ from accounts.models import Account, SavedAccount, Photos
 class PhotosSerializer(ModelSerializer):
     class Meta:
         model = Photos
-        fields = ('photo', )
+        fields = ('photo',)
+
+
+class AccountListSerializer(ModelSerializer):
+    photo = PhotosSerializer(many=True, read_only=True, source='account_list')
+
+    class Meta:
+        model = Account
+        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo')
 
 
 class AccountSerializer(ModelSerializer):

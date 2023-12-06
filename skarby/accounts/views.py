@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
@@ -7,8 +8,8 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from accounts.filters import AccountFilter
-from accounts.models import Account, SavedAccount
-from accounts.serializers import AccountSerializer, SavedAccountSerializer
+from accounts.models import Account, SavedAccount, Photos
+from accounts.serializers import AccountSerializer, SavedAccountSerializer, AccountListSerializer
 
 
 # class AccountListPagination(PageNumberPagination):
@@ -21,8 +22,11 @@ class AccountsListView(ListAPIView):
     """
     This view is to show all published posts.
     """
-    queryset = Account.objects.filter(is_published=Account.Status.PUBLISHED)  # Show only accepted to publish accounts
-    serializer_class = AccountSerializer
+    queryset = Account.objects.filter(is_published=Account.Status.PUBLISHED).prefetch_related(
+        Prefetch('account_photos', queryset=Photos.objects.all(), to_attr='account_list')
+    )
+    # Show only accepted to publish accounts
+    serializer_class = AccountListSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = AccountFilter
     # pagination_class = AccountListPagination
@@ -34,9 +38,12 @@ class AccountDetailView(APIView):
     """
 
     def get(self, request, slug):
-        account = get_object_or_404(Account, slug=slug, is_published=Account.Status.PUBLISHED)
+        account = get_object_or_404(
+            Account.objects.prefetch_related('account_photos'),  # get account with photo
+            slug=slug,
+            is_published=Account.Status.PUBLISHED
+        )
         serializer = AccountSerializer(account)
-
         return Response(serializer.data)
 
 
