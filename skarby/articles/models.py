@@ -4,7 +4,7 @@ from accounts.models import Account
 
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=150, verbose_name='Назва катэгорыі')
-    article_category_slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Slug')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Slug')
 
     def __str__(self):
         return self.name
@@ -24,7 +24,7 @@ class Article(models.Model):
     title = models.CharField(max_length=150, verbose_name='Загаловак')
     content = models.TextField(verbose_name='Тэкст')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Час стварэння')
-    article_slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Slug')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Slug')
     article_category = models.ForeignKey(ArticleCategory, on_delete=models.CASCADE, verbose_name='Катэгорыя')
     account = models.ManyToManyField(Account, blank=True)
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
@@ -33,8 +33,8 @@ class Article(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = "Навіна"
-        verbose_name_plural = "Навіны"
+        verbose_name = "Артыкул"
+        verbose_name_plural = "Артыкулы"
         ordering = ['id']
 
 
@@ -52,7 +52,7 @@ def article_photos_upload_to(instance, filename):
 
 
 class ArticlePhotos(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='Артыкул')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='article_photos', verbose_name='Артыкул')
     photo = models.ImageField(upload_to=article_photos_upload_to, verbose_name='Фота')
 
     def __str__(self):

@@ -5,7 +5,7 @@ from users.models import CustomUser
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
-    category_slug = models.SlugField(max_length=80, unique=True, db_index=True, verbose_name='Slug')
+    slug = models.SlugField(max_length=80, unique=True, db_index=True, verbose_name='Slug')
 
     def __str__(self):
         return self.name
@@ -34,7 +34,7 @@ class Account(models.Model):
         PUBLISHED = 1, 'Апублікавана'
 
     name = models.CharField(max_length=70, verbose_name='Імя/Назва')
-    account_slug = models.SlugField(max_length=80, unique=True, db_index=True, verbose_name='Slug')
+    slug = models.SlugField(max_length=80, unique=True, db_index=True, verbose_name='Slug')
     description = models.TextField(verbose_name='Апісанне')
     instagram = models.CharField(max_length=50, null=True, blank=True)
     telegram = models.CharField(max_length=50, blank=True, null=True)
@@ -64,7 +64,7 @@ def account_photos_upload_to(instance, filename):
 
 
 class Photos(models.Model):
-    accounts = models.ForeignKey(Account, on_delete=models.CASCADE, verbose_name='Аккаўнт')
+    accounts = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_photos', verbose_name='Аккаўнт')
     photo = models.ImageField(upload_to=account_photos_upload_to, verbose_name='Фота')
 
     def __str__(self):

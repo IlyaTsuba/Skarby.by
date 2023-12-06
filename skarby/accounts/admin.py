@@ -6,7 +6,7 @@ from accounts.models import Account, Photos, Category
 
 class CategoryAdmin(admin.ModelAdmin):
     model = Category
-    prepopulated_fields = {'category_slug': ('name',)}
+    prepopulated_fields = {'slug': ('name',)}
 
 
 class PhotoInline(admin.TabularInline):
@@ -23,7 +23,7 @@ class AccountAdmin(admin.ModelAdmin):
     search_fields = ['name']
     save_on_top = True
     list_display_links = 'id', 'name'
-    prepopulated_fields = {'account_slug': ('name',)}
+    prepopulated_fields = {'slug': ('name',)}
 
     @admin.display(description='Аватар')
     def show_avatar(self, account: Account):

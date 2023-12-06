@@ -30,8 +30,8 @@ class ArticleDetailView(APIView):
     This view is to show exact Account details
     """
 
-    def get(self, request, article_slug):
-        article = get_object_or_404(Article, article_slug=article_slug, is_published=Article.Status.PUBLISHED)
+    def get(self, request, slug):
+        article = get_object_or_404(Article, slug=slug, is_published=Article.Status.PUBLISHED)
         serializer = ArticleSerializer(article)
 
         return Response(serializer.data)
