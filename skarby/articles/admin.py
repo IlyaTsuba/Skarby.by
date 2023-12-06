@@ -14,8 +14,8 @@ class ArticlePhotoInline(admin.TabularInline):
 
 class ArticleAdmin(admin.ModelAdmin):
     model = Article
-    list_display = ('id', 'title', 'time_create', 'article_slug', 'article_category', 'account', 'is_published')
-    readonly_fields = ['show_avatar']
+    list_display = ('id', 'title', 'time_create', 'article_slug', 'article_category', 'is_published')
+    # readonly_fields = ['show_avatar']
     inlines = [ArticlePhotoInline]
     list_per_page = 5
     search_fields = ['title']
