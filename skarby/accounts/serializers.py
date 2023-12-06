@@ -7,6 +7,7 @@ class PhotosSerializer(ModelSerializer):
     class Meta:
         model = Photos
         fields = ('photo',)
+        ref_name = 'PhotosSerializerModel'
 
 
 class AccountListSerializer(ModelSerializer):
