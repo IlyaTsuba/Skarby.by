@@ -26,7 +26,7 @@ class Article(models.Model):
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Час стварэння')
     article_slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Slug')
     article_category = models.ForeignKey(ArticleCategory, on_delete=models.CASCADE, verbose_name='Катэгорыя')
-    account = models.ManyToManyField(Account, null=True, blank=True)
+    account = models.ManyToManyField(Account, blank=True)
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
 
     def __str__(self):
@@ -47,7 +47,7 @@ def article_photos_upload_to(instance, filename):
     :return: New path for photo upload_to.
     """
     # get account name through ForeignKey to Article. Same as Article.name
-    article_title = instance.title
+    article_title = instance.article.title
     return f"{article_title}/photos/{filename}"
 
 

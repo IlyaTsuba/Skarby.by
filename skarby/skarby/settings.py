@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users.apps.UsersConfig',
     'accounts.apps.AccountsConfig',
+    'articles.apps.ArticlesConfig',
     'djoser',
     'corsheaders',
     "debug_toolbar",
