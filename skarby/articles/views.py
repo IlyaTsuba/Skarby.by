@@ -22,7 +22,7 @@ class ArticlesListView(ListAPIView):
     queryset = Article.objects.filter(is_published=Article.Status.PUBLISHED)  # Show only accepted to publish articles
     serializer_class = ArticleSerializer
     filter_backends = (DjangoFilterBackend,)
-    pagination_class = ArticleListPagination
+    # pagination_class = ArticleListPagination
 
 
 class ArticleDetailView(APIView):

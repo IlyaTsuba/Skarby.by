@@ -25,7 +25,7 @@ class AccountsListView(ListAPIView):
     serializer_class = AccountSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = AccountFilter
-    pagination_class = AccountListPagination
+    # pagination_class = AccountListPagination
 
 
 class AccountDetailView(APIView):
