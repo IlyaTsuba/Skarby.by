@@ -33,8 +33,8 @@ class AccountDetailView(APIView):
     This view is to show exact Account details
     """
 
-    def get(self, request, account_slug):
-        account = get_object_or_404(Account, account_slug=account_slug, is_published=Account.Status.PUBLISHED)
+    def get(self, request, slug):
+        account = get_object_or_404(Account, slug=slug, is_published=Account.Status.PUBLISHED)
         serializer = AccountSerializer(account)
 
         return Response(serializer.data)

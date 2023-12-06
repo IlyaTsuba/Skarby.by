@@ -1,12 +1,20 @@
 from rest_framework.serializers import ModelSerializer
 
-from accounts.models import Account, SavedAccount
+from accounts.models import Account, SavedAccount, Photos
+
+
+class PhotosSerializer(ModelSerializer):
+    class Meta:
+        model = Photos
+        fields = ('photo', )
 
 
 class AccountSerializer(ModelSerializer):
+    photo = PhotosSerializer(many=True, read_only=True, source='account_photos')
+
     class Meta:
         model = Account
-        fields = ('account_slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category')
+        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo')
 
 
 class SavedAccountSerializer(ModelSerializer):
