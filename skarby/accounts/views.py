@@ -35,7 +35,6 @@ class AccountDetailView(APIView):
 
     def get(self, request, account_slug):
         account = get_object_or_404(Account, account_slug=account_slug, is_published=Account.Status.PUBLISHED)
-
         serializer = AccountSerializer(account)
 
         return Response(serializer.data)
@@ -52,7 +51,8 @@ class SavedAccountsCreateDeleteView(APIView):
         user = request.user
 
         saved_account, created = SavedAccount.objects.get_or_create(user=user, account=account)
-        # get_or_create method creates object if object doesn't exist in saved and returns True, if not returns False
+        # get_or_create method creates object if object doesn't exist in saved accounts and returns True,
+        # if not returns False
 
         if created:  # True, new account saved
             return Response({'message': 'Акаўнт захаваны'}, status=status.HTTP_201_CREATED)
