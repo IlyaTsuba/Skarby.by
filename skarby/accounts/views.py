@@ -11,10 +11,10 @@ from accounts.models import Account, SavedAccount
 from accounts.serializers import AccountSerializer, SavedAccountSerializer
 
 
-class AccountListPagination(PageNumberPagination):
-    page_size = 2
-    page_size_query_param = 'page_size'
-    max_page_size = 10
+# class AccountListPagination(PageNumberPagination):
+#     page_size = 2
+#     page_size_query_param = 'page_size'
+#     max_page_size = 10
 
 
 class AccountsListView(ListAPIView):

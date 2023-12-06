@@ -9,10 +9,10 @@ from rest_framework.generics import ListAPIView
 from articles.serializers import ArticleSerializer
 
 
-class ArticleListPagination(PageNumberPagination):
-    page_size = 2
-    page_size_query_param = 'page_size'
-    max_page_size = 10
+# class ArticleListPagination(PageNumberPagination):
+#     page_size = 2
+#     page_size_query_param = 'page_size'
+#     max_page_size = 10
 
 
 class ArticlesListView(ListAPIView):
