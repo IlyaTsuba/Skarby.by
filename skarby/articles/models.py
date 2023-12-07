@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import Account
+from users.models import CustomUser
 
 
 class ArticleCategory(models.Model):
@@ -16,7 +17,6 @@ class ArticleCategory(models.Model):
 
 
 class Article(models.Model):
-
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Чарнавік',
         PUBLISHED = 1, 'Апублікавана'
@@ -38,6 +38,11 @@ class Article(models.Model):
         ordering = ['id']
 
 
+class ArticleLikes(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+
+
 def article_photos_upload_to(instance, filename):
     """
     This method creates a new path for upload_to in Account model. Params instance and filename are identified in
@@ -52,7 +57,8 @@ def article_photos_upload_to(instance, filename):
 
 
 class ArticlePhotos(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='article_photos', verbose_name='Артыкул')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='article_photos',
+                                verbose_name='Артыкул')
     photo = models.ImageField(upload_to=article_photos_upload_to, verbose_name='Фота')
 
     def __str__(self):
