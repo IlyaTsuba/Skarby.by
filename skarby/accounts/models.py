@@ -41,6 +41,7 @@ class Account(models.Model):
     avatar = models.ImageField(upload_to=account_avatar_upload_to, verbose_name='Аватар')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Катэгорыя')
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
+    likes = models.ManyToManyField(CustomUser, blank=True, through="AccountLikes")
 
     def __str__(self):
         return self.name
@@ -48,6 +49,11 @@ class Account(models.Model):
     class Meta:
         verbose_name = 'Акаўнт'
         verbose_name_plural = 'Акаўнты'
+
+
+class AccountLikes(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE)
 
 
 def account_photos_upload_to(instance, filename):
@@ -64,7 +70,8 @@ def account_photos_upload_to(instance, filename):
 
 
 class Photos(models.Model):
-    accounts = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_photos', verbose_name='Аккаўнт')
+    accounts = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_photos',
+                                 verbose_name='Аккаўнт')
     photo = models.ImageField(upload_to=account_photos_upload_to, verbose_name='Фота')
 
     def __str__(self):

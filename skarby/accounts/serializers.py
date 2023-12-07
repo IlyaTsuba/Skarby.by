@@ -1,6 +1,6 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from accounts.models import Account, SavedAccount, Photos
+from accounts.models import Account, SavedAccount, Photos, AccountLikes
 
 
 class PhotosSerializer(ModelSerializer):
@@ -20,10 +20,15 @@ class AccountListSerializer(ModelSerializer):
 
 class AccountSerializer(ModelSerializer):
     photo = PhotosSerializer(many=True, read_only=True, source='account_photos')
+    likes_count = SerializerMethodField()
 
     class Meta:
         model = Account
-        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo')
+        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo', 'likes_count')
+
+    def get_likes_count(self, account):
+        likes_count = AccountLikes.objects.filter(account_id=account.id).count()
+        return likes_count
 
 
 class SavedAccountSerializer(ModelSerializer):

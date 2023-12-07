@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from accounts.filters import AccountFilter
-from accounts.models import Account, SavedAccount, Photos
+from accounts.models import Account, SavedAccount, Photos, AccountLikes
 from accounts.serializers import AccountSerializer, SavedAccountSerializer, AccountListSerializer
 
 
@@ -46,6 +46,28 @@ class AccountDetailView(APIView):
         serializer = AccountSerializer(account)
         return Response(serializer.data)
 
+
+class AccountLikeView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def post(self, request, slug):
+        user = request.user
+        account = get_object_or_404(Account, slug=slug)
+
+        liked_account, created = AccountLikes.objects.get_or_create(user=user, account=account)
+
+        if created:  # True, add like
+            return Response({'message': 'Падабаечка!'}, status=status.HTTP_201_CREATED)
+        else:  # False, like exists
+            return Response({'message': 'Ужо спадабалася!'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, slug):
+        user = request.user
+        account = get_object_or_404(Account, slug=slug)
+        like_to_delete = get_object_or_404(AccountLikes, user=user, account_id=account.id)
+        if like_to_delete:
+            like_to_delete.delete()
+            return Response({'message': 'Падабаечка выдалена:('}, status=status.HTTP_200_OK)
 
 # Saved account functionality
 
