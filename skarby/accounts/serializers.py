@@ -24,7 +24,8 @@ class AccountSerializer(ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo', 'likes_count')
+        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo', 'likes_count',
+                  'is_published')
 
     def get_likes_count(self, account):
         likes_count = AccountLikes.objects.filter(account_id=account.id).count()

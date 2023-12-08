@@ -38,6 +38,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('', include('accounts.urls')),
     path('', include('articles.urls')),
+    path('', include('mainpage.urls')),
 
     # Debug toolbar
 
