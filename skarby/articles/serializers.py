@@ -1,6 +1,6 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from articles.models import Article, ArticlePhotos
+from articles.models import Article, ArticlePhotos, ArticleLikes
 
 
 class PhotosSerializer(ModelSerializer):
@@ -11,8 +11,13 @@ class PhotosSerializer(ModelSerializer):
 
 class ArticleSerializer(ModelSerializer):
     photo = PhotosSerializer(many=True, read_only=True, source='article_photos')
+    likes_count = SerializerMethodField()
 
     class Meta:
         model = Article
         fields = ('title', 'content', 'time_create', 'slug', 'article_category',
-                  'account', 'is_published', 'photo')
+                  'account', 'is_published', 'photo', 'likes_count')
+
+    def get_likes_count(self, article):
+        likes_count = ArticleLikes.objects.filter(article_id=article.id).count()
+        return likes_count

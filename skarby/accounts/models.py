@@ -41,7 +41,6 @@ class Account(models.Model):
     avatar = models.ImageField(upload_to=account_avatar_upload_to, verbose_name='Аватар')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Катэгорыя')
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
-    likes = models.ManyToManyField(CustomUser, blank=True, through="AccountLikes")
 
     def __str__(self):
         return self.name
