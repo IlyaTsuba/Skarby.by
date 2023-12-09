@@ -12,15 +12,19 @@ class PhotosSerializer(ModelSerializer):
 
 class AccountListSerializer(ModelSerializer):
     photo = PhotosSerializer(many=True, read_only=True, source='account_list')
-
+    category = SerializerMethodField()
     class Meta:
         model = Account
         fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo')
 
 
+    def get_category(self, account):
+        return account.category.name
+
 class AccountSerializer(ModelSerializer):
     photo = PhotosSerializer(many=True, read_only=True, source='account_photos')
     likes_count = SerializerMethodField()
+    category = SerializerMethodField()
 
     class Meta:
         model = Account
@@ -30,6 +34,9 @@ class AccountSerializer(ModelSerializer):
     def get_likes_count(self, account):
         likes_count = AccountLikes.objects.filter(account_id=account.id).count()
         return likes_count
+
+    def get_category(self, account):
+        return account.category.name
 
 
 class SavedAccountSerializer(ModelSerializer):

@@ -15,7 +15,7 @@ class ArticleSerializer(ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('title', 'content', 'time_create', 'slug', 'article_category',
+        fields = ('title', 'content', 'time_create', 'slug', 'category',
                   'account', 'is_published', 'photo', 'likes_count')
 
     def get_likes_count(self, article):

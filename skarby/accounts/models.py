@@ -25,7 +25,7 @@ def account_avatar_upload_to(instance, filename):
     """
     # get account name through ForeignKey to Account. Same as Account.name
     account_name = instance.name
-    return f"{account_name}/avatar/{filename}"
+    return f"accounts/{account_name}/avatar/{filename}"
 
 
 class Account(models.Model):
@@ -65,7 +65,7 @@ def account_photos_upload_to(instance, filename):
     """
     # get account name through ForeignKey to Account. Same as Photos.accounts.name
     account_name = instance.accounts.name
-    return f"{account_name}/account_photos/{filename}"
+    return f"accounts/{account_name}/account_photos/{filename}"
 
 
 class Photos(models.Model):

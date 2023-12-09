@@ -22,7 +22,8 @@ class AccountsListView(ListAPIView):
     """
     This view is to show all published posts.
     """
-    queryset = Account.objects.filter(is_published=Account.Status.PUBLISHED).prefetch_related(
+    queryset = Account.objects.filter(is_published=Account.Status.PUBLISHED).select_related(
+        'category').prefetch_related(
         Prefetch('account_photos', queryset=Photos.objects.all(), to_attr='account_list')
     )
     # Show only accepted to publish accounts

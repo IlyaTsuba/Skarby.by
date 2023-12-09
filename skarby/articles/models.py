@@ -25,7 +25,7 @@ class Article(models.Model):
     content = models.TextField(verbose_name='Тэкст')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Час стварэння')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='Slug')
-    article_category = models.ForeignKey(ArticleCategory, on_delete=models.CASCADE, verbose_name='Катэгорыя')
+    category = models.ForeignKey(ArticleCategory, on_delete=models.CASCADE, verbose_name='Катэгорыя')
     account = models.ManyToManyField(Account, blank=True)
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
 
@@ -53,7 +53,7 @@ def article_photos_upload_to(instance, filename):
     """
     # get account name through ForeignKey to Article. Same as Article.name
     article_title = instance.article.title
-    return f"{article_title}/photos/{filename}"
+    return f"articles/{article_title}/photos/{filename}"
 
 
 class ArticlePhotos(models.Model):
