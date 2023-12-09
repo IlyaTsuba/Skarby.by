@@ -40,10 +40,11 @@ class AccountDetailView(APIView):
 
     def get(self, request, slug):
         account = get_object_or_404(
-            Account.objects.prefetch_related('account_photos'),  # get account with photo
+            Account.objects.select_related('category').prefetch_related('account_photos'),
             slug=slug,
             is_published=Account.Status.PUBLISHED
         )
+
         serializer = AccountSerializer(account)
         return Response(serializer.data)
 
