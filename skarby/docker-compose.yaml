@@ -7,6 +7,10 @@ services:
       sh -c "python3 manage.py migrate &&
              python3 manage.py runserver 0.0.0.0:8000"
     build: .
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/
+      - CELERY_RESULT_BACKEND=redis://redis:6379/
+      - POSTGRES_HOST=db
     volumes:
       - .:/app
     ports:
@@ -18,19 +22,22 @@ services:
     volumes:
       - postgres_data:/app
     environment:
-      - POSTGRES_USER=$POSTGRES_USER
-      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-      - POSTGRES_DB=$POSTGRES_DB_NAME
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=skarby
     ports:
       - "5433:5432"
   redis:
     image: redis:alpine
   celery:
     restart: always
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/
+      - CELERY_RESULT_BACKEND=redis://redis:6379/
     build:
       context: .
     command: >
-      sh -c "sleep 10 && celery -A skarby worker -l info"
+      sh -c "celery -A skarby worker -l info && celery -A skarby beat -l info && celery -A skarby flower"
     volumes:
       - .:/app
     depends_on:
@@ -39,11 +46,13 @@ services:
       - app
   flower:
     image: mher/flower:0.9.7
-    command: flower --broker=redis://redis:6379 --port=5555
+    command: sh -c "celery -A skarby flower"
     ports:
       - "5555:5555"
     depends_on:
       - redis
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/
+      - CELERY_RESULT_BACKEND=redis://redis:6379/
 volumes:
   postgres_data:
-
