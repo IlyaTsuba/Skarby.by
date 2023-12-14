@@ -60,8 +60,8 @@ class AccountLikeView(APIView):
 
         if created:  # True, add like
             return Response({'message': 'Падабаечка!'}, status=status.HTTP_201_CREATED)
-        else:  # False, like exists
-            return Response({'message': 'Ужо спадабалася!'}, status=status.HTTP_200_OK)
+        # else:  # False, like exists
+        #     return Response({'message': 'Ужо спадабалася!'}, status=status.HTTP_200_OK)
 
     def delete(self, request, slug):
         user = request.user
@@ -87,8 +87,8 @@ class SavedAccountsCreateDeleteView(APIView):
 
         if created:  # True, new account saved
             return Response({'message': 'Акаўнт захаваны'}, status=status.HTTP_201_CREATED)
-        else:  # False, account already exists in saved
-            return Response({'message': 'Акаўнт ужо захаваны'}, status=status.HTTP_200_OK)
+        # else:  # False, account already exists in saved
+        #     return Response({'message': 'Акаўнт ужо захаваны'}, status=status.HTTP_200_OK)
 
     def delete(self, request, account_id):
         user = request.user
