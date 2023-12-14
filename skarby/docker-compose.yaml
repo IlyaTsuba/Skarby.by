@@ -23,5 +23,27 @@ services:
       - POSTGRES_DB=$POSTGRES_DB_NAME
     ports:
       - "5433:5432"
+  redis:
+    image: redis:alpine
+  celery:
+    restart: always
+    build:
+      context: .
+    command: >
+      sh -c "sleep 10 && celery -A skarby worker -l info"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+      - app
+  flower:
+    image: mher/flower:0.9.7
+    command: flower --broker=redis://redis:6379 --port=5555
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
 volumes:
   postgres_data:
+

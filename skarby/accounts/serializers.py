@@ -11,15 +11,21 @@ class PhotosSerializer(ModelSerializer):
 
 
 class AccountListSerializer(ModelSerializer):
-    photo = PhotosSerializer(many=True, read_only=True, source='account_list')
-    category = SerializerMethodField()
+    # photo = PhotosSerializer(many=True, read_only=True, source='account_list')
+    # category = SerializerMethodField()
+    avatar = SerializerMethodField()
+
     class Meta:
         model = Account
-        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo')
+        # fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo')
+        fields = ('slug', 'name', 'avatar')
 
+    # def get_category(self, account):
+    #     return account.category.name
 
-    def get_category(self, account):
-        return account.category.name
+    def get_avatar(self, account):
+        return account.avatar.url
+
 
 class AccountSerializer(ModelSerializer):
     photo = PhotosSerializer(many=True, read_only=True, source='account_photos')
