@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from articles.models import Article, ArticleLikes
 from rest_framework.generics import ListAPIView
 
-from articles.serializers import ArticleSerializer
+from articles.serializers import ArticleSerializer, ArticleListSerializer
 
 
 # class ArticleListPagination(PageNumberPagination):
@@ -21,8 +21,9 @@ class ArticlesListView(ListAPIView):
     """
     This view is to show all published articles.
     """
-    queryset = Article.objects.filter(is_published=Article.Status.PUBLISHED).select_related('category')  # Show only accepted to publish articles
-    serializer_class = ArticleSerializer
+    queryset = Article.objects.filter(is_published=Article.Status.PUBLISHED).select_related('category')
+    # Show only accepted to publish articles
+    serializer_class = ArticleListSerializer
     filter_backends = (DjangoFilterBackend,)
     # pagination_class = ArticleListPagination
 
@@ -61,3 +62,4 @@ class ArticleLikeView(APIView):
         if like_to_delete:
             like_to_delete.delete()
             return Response({'message': 'Падабаечка выдалена:('}, status=status.HTTP_200_OK)
+

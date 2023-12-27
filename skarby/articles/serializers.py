@@ -9,6 +9,19 @@ class PhotosSerializer(ModelSerializer):
         fields = ('photo',)
 
 
+class ArticleListSerializer(ModelSerializer):
+    likes_count = SerializerMethodField()
+    category = SerializerMethodField()
+
+    class Meta:
+        model = Article
+        fields = ('title', 'content', 'time_create', 'slug', 'category',
+                  'account', 'is_published')
+
+    def get_category(self, account):
+        return account.category.name
+
+
 class ArticleSerializer(ModelSerializer):
     photo = PhotosSerializer(many=True, read_only=True, source='article_photos')
     likes_count = SerializerMethodField()
@@ -17,7 +30,7 @@ class ArticleSerializer(ModelSerializer):
     class Meta:
         model = Article
         fields = ('title', 'content', 'time_create', 'slug', 'category',
-                  'account', 'is_published', 'photo', 'likes_count')
+                  'account', 'is_published', 'likes_count', 'photo')
 
     def get_likes_count(self, article):
         likes_count = ArticleLikes.objects.filter(article_id=article.id).count()

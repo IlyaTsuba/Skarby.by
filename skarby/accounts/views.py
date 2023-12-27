@@ -17,15 +17,15 @@ from accounts.serializers import AccountSerializer, SavedAccountSerializer, Acco
 #     page_size_query_param = 'page_size'
 #     max_page_size = 10
 
+# prefetch_related(
+#         Prefetch('account_photos', queryset=Photos.objects.all(), to_attr='account_list')
 
 class AccountsListView(ListAPIView):
     """
     This view is to show all published posts.
     """
     queryset = Account.objects.filter(is_published=Account.Status.PUBLISHED).select_related(
-        'category').prefetch_related(
-        Prefetch('account_photos', queryset=Photos.objects.all(), to_attr='account_list')
-    )
+        'category')
     # Show only accepted to publish accounts
     serializer_class = AccountListSerializer
     filter_backends = (DjangoFilterBackend,)
