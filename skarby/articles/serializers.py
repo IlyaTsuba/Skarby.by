@@ -10,7 +10,7 @@ class PhotosSerializer(ModelSerializer):
 
 
 class ArticleListSerializer(ModelSerializer):
-    likes_count = SerializerMethodField()
+    # likes_count = SerializerMethodField()
     category = SerializerMethodField()
 
     class Meta:
