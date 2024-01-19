@@ -45,13 +45,23 @@ class AccountDetailView(APIView):
             is_published=Account.Status.PUBLISHED
         )
 
-        serializer = AccountSerializer(account)
+        serializer = AccountSerializer(account, context={'request': request})
         return Response(serializer.data)
 
 
 class AccountLikeView(APIView):
     permission_classes = [IsAuthenticated, ]
 
+    # def post(self, request, slug):
+    #     user = request.user
+    #     account = get_object_or_404(Account, slug=slug)
+    #
+    #     liked_account, created = AccountLikes.objects.get_or_create(user=user, account=account)
+    #
+    #     if created:  # True, add like
+    #         return Response({'message': 'Падабаечка!'}, status=status.HTTP_201_CREATED)
+        # else:  # False, like exists
+        #     return Response({'message': 'Ужо спадабалася!'}, status=status.HTTP_200_OK)
     def post(self, request, slug):
         user = request.user
         account = get_object_or_404(Account, slug=slug)
@@ -60,8 +70,8 @@ class AccountLikeView(APIView):
 
         if created:  # True, add like
             return Response({'message': 'Падабаечка!'}, status=status.HTTP_201_CREATED)
-        # else:  # False, like exists
-        #     return Response({'message': 'Ужо спадабалася!'}, status=status.HTTP_200_OK)
+        else:  # False, like exists
+            return Response({'message': 'Ужо спадабалася!'}, status=status.HTTP_200_OK)
 
     def delete(self, request, slug):
         user = request.user

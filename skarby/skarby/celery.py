@@ -21,7 +21,7 @@ celery.autodiscover_tasks()
 celery.conf.beat_schedule = {
     'count-new-users-weekly': {
         'task': 'users.tasks.count_new_users_weekly',
-        'schedule': crontab(day_of_week='monday', hour=15, minute=00),
+        'schedule': crontab(day_of_week='thursday', hour=13, minute=28),
     },
 }
 
