@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AnonymousUser
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from accounts.models import Account, SavedAccount, Photos, AccountLikes
@@ -11,14 +12,12 @@ class PhotosSerializer(ModelSerializer):
 
 
 class AccountListSerializer(ModelSerializer):
-    # photo = PhotosSerializer(many=True, read_only=True, source='account_list')
     category = SerializerMethodField()
     avatar = SerializerMethodField()
 
     class Meta:
         model = Account
         fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category')
-        # fields = ('slug', 'name', 'avatar')
 
     def get_category(self, account):
         return account.category.name
@@ -31,11 +30,23 @@ class AccountSerializer(ModelSerializer):
     photo = PhotosSerializer(many=True, read_only=True, source='account_photos')
     likes_count = SerializerMethodField()
     category = SerializerMethodField()
+    is_liked = SerializerMethodField()
 
     class Meta:
         model = Account
         fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo', 'likes_count',
-                  'is_published')
+                  'is_published', 'is_liked')
+
+    # def get_is_liked(self, account):
+    #     user = self.context['request'].user
+    #     if not isinstance(user, AnonymousUser):
+    #         return AccountLikes.objects.filter(user_id=user.id, account_id=account.id).exists()
+    def get_is_liked(self, account):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            user = request.user
+            return AccountLikes.objects.filter(user=user, account=account).exists()
+        return False
 
     def get_likes_count(self, account):
         likes_count = AccountLikes.objects.filter(account_id=account.id).count()
