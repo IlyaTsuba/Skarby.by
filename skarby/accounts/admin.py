@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from accounts.models import Account, Photos, Category
+from accounts.models import Account, Photos, Category, AccountLikes
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -33,5 +33,6 @@ class AccountAdmin(admin.ModelAdmin):
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Photos)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(AccountLikes)
 
 
