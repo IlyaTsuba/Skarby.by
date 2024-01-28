@@ -36,8 +36,6 @@ class Account(models.Model):
     name = models.CharField(max_length=70, verbose_name='Імя/Назва')
     slug = models.SlugField(max_length=80, unique=True, db_index=True, verbose_name='Slug')
     description = models.TextField(verbose_name='Апісанне')
-    instagram = models.CharField(max_length=50, null=True, blank=True)
-    telegram = models.CharField(max_length=50, blank=True, null=True)
     avatar = models.ImageField(upload_to=account_avatar_upload_to, verbose_name='Аватар')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Катэгорыя')
     is_published = models.BooleanField(choices=Status.choices, default=Status.DRAFT)
@@ -50,9 +48,29 @@ class Account(models.Model):
         verbose_name_plural = 'Акаўнты'
 
 
+class SocialMedia(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='account_social_media')
+    instagram = models.CharField(max_length=50, null=True, blank=True)
+    telegram = models.CharField(max_length=50, blank=True, null=True)
+    youtube = models.CharField(max_length=50, blank=True, null=True)
+    tiktok = models.CharField(max_length=50, blank=True, null=True)
+    site = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.account.name
+
+    class Meta:
+        verbose_name = 'Сацыяльнае медыя'
+        verbose_name_plural = 'Сацыяльныя медыя'
+
+
 class AccountLikes(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Падабайка'
+        verbose_name_plural = 'Падабайкі'
 
 
 def account_photos_upload_to(instance, filename):

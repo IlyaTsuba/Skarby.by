@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from accounts.models import Account, SavedAccount, Photos, AccountLikes
+from accounts.models import Account, SavedAccount, Photos, AccountLikes, SocialMedia
 
 
 class PhotosSerializer(ModelSerializer):
@@ -11,13 +11,19 @@ class PhotosSerializer(ModelSerializer):
         ref_name = 'PhotosSerializerModel'
 
 
+class SocialMediaSerializer(ModelSerializer):
+    class Meta:
+        model = SocialMedia
+        fields = ('instagram', 'telegram', 'youtube', 'tiktok', 'site')
+
+
 class AccountListSerializer(ModelSerializer):
     category = SerializerMethodField()
     avatar = SerializerMethodField()
 
     class Meta:
         model = Account
-        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category')
+        fields = ('slug', 'name', 'description', 'avatar', 'category')
 
     def get_category(self, account):
         return account.category.name
@@ -31,11 +37,12 @@ class AccountSerializer(ModelSerializer):
     likes_count = SerializerMethodField()
     category = SerializerMethodField()
     is_liked = SerializerMethodField()
+    social_media = SocialMediaSerializer(many=True, source='account_social_media', read_only=True)
 
     class Meta:
         model = Account
-        fields = ('slug', 'name', 'description', 'instagram', 'telegram', 'avatar', 'category', 'photo', 'likes_count',
-                  'is_published', 'is_liked')
+        fields = ('slug', 'name', 'description', 'avatar', 'category', 'photo', 'likes_count',
+                  'is_published', 'is_liked', 'social_media')
 
     # def get_is_liked(self, account):
     #     user = self.context['request'].user
