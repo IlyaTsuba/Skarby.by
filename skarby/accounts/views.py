@@ -40,7 +40,7 @@ class AccountDetailView(APIView):
 
     def get(self, request, slug):
         account = get_object_or_404(
-            Account.objects.select_related('category').prefetch_related('account_photos'),
+            Account.objects.select_related('category').prefetch_related('account_photos', 'account_social_media'),
             slug=slug,
             is_published=Account.Status.PUBLISHED
         )
