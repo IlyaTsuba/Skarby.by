@@ -13,6 +13,6 @@ urlpatterns = [
 
     # Saved accounts
     path('saved-account/<int:account_id>/', SavedAccountsCreateDeleteView.as_view(), name='saved-account'),
-    path('saved-accounts/', SavedAccountsListView.as_view(), name='show_all_saved-accounts'),
+    path('saved-account/', SavedAccountsListView.as_view(), name='show_all_saved-accounts'),
 
 ]

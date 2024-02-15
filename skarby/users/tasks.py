@@ -17,10 +17,9 @@ def count_new_users_weekly():
 
     new_users_count = CustomUser.objects.filter(date_joined__gte=start_date, date_joined__lt=end_date).count()
 
-    report_line = (f"За неделю с {formatted_start_date} по {formatted_end_date} количество зарегистрированных "
-                   f"новых пользователей:  {new_users_count}.")
+    report_line = (f"За тыдзень з {formatted_start_date} па {formatted_end_date} колькасць зарэгістраваных "
+                   f"новых карыстальнікаў:  {new_users_count}.")
 
-    # Записываем строку в файл report.txt
     with open('new_users_report.txt', 'a') as report_file:
         report_file.write(report_line + '\n')
 
